@@ -1,0 +1,25 @@
+---
+- hosts: ansiubnt1
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  remote_user:
+    experience
+  roles:
+   - nginx
+
+- hosts: ansiubnt0
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  remote_user:
+    experience
+  roles:
+   - nginx
+   
