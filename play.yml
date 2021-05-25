@@ -23,3 +23,14 @@
   roles:
    - nginx
    
+- hosts: ansiubnt2
+  become:
+    true
+  become_method:
+    sudo
+  become_user:
+    root
+  remote_user:
+    experience
+  roles:
+   - nginx   
