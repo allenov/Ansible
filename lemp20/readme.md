@@ -10,6 +10,7 @@ lemp20
 ├── playbook.yml
 ├── inventory
 │   └──inventory.yml
+├── ansible.cfg
 └── readme.md
 ---
 mysql_root_password: "mysql_root_password"
