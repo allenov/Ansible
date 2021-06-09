@@ -10,3 +10,4 @@ COPY phpstd.conf /etc/supervisor/conf.d/
 RUN ln -s /etc/nginx/sites-enabled/site /etc/nginx/sites-available/
 RUN rm /etc/nginx/sites-enabled/default
 CMD ["supervisord", "-n"]
+###
