@@ -1,6 +1,6 @@
 #Установка LEMP сервера 
 #заменить переменные в
-#vars/default.yml
+#vars/lemp.yml
 lemp20
 ├── files
 │   ├── info.php.j2
