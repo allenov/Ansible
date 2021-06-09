@@ -1,0 +1,78 @@
+---
+- hosts: all
+  become: true
+  vars_files:
+    - vars/docker.yml
+
+  tasks:
+    - name: Install aptitude using apt
+      apt: name=aptitude state=latest update_cache=yes force_apt_get=yes
+
+    - name: Install required system packages
+      apt: name={{ item }} state=latest update_cache=yes
+      loop: [ 'apt-transport-https', 'ca-certificates', 'curl', 'software-properties-common', 'python3-pip', 'virtualenv', 'python3-setuptools']
+
+    - name: Add Docker GPG apt Key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker Repository
+      apt_repository:
+        repo: deb https://download.docker.com/linux/ubuntu bionic stable
+        state: present
+
+    - name: Update apt and install docker-ce
+      apt: update_cache=yes name=docker-ce state=latest
+
+    - name: Install Docker Module for Python
+      pip:
+        name: docker
+  
+# Nginx Configuration
+    - name: Sets Nginx conf file
+      template:
+        src: "files/site.j2"
+        dest: "{{ http_conf }}"
+    - name: Sets php conf file
+      template:
+        src: "files/info.php.j2"
+        dest: "{{ php_conf }}"
+    - name: Sets Dockerfile 
+      template:
+        src: "files/dockerfile.j2"
+        dest: "{{ dockerfile_conf }}"
+# 
+#    - name: Sets sh conf file 
+#      template:
+#        src: "files/sh.sh.j2"
+ #       dest: "{{ sh_conf }}"
+    - name: Sets supervisor conf file
+      template:
+        src: "files/supervisord.conf.j2"
+        dest: "{{ supervisord_conf }}"    
+    - name: Sets supervisor conf file nginx
+      template:
+        src: "files/nginxstd.conf.j2"
+        dest: "{{ nginxstd_conf }}" 
+    - name: Sets supervisor conf file php
+      template:
+        src: "files/phpstd.conf.j2"
+        dest: "{{ phpstd_conf }}" 
+    #- name: идея со сборкой докер файла надо разбираться 
+#      dockerfile: 
+#        state: present 
+#
+    - name: Run a docker build images
+      ansible.builtin.shell: docker build -t {{ default_container_image }} .
+
+    - name: Run a docker images
+      ansible.builtin.shell: docker run -d -p {{ http_port }}:{{ http_port }} {{ default_container_image }}
+
+    # идея с запуском контейнеров надо разбираться сидеть
+#    - name: Create default containers
+#      docker_container:
+#        name: "{{ default_container_name }}{{ item }}"
+#        image: "{{ default_container_image }}"
+ #       state: present
+ #     with_sequence: count={{ create_containers }}

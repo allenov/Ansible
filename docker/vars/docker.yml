@@ -1,0 +1,14 @@
+---
+vars:
+http_host: "_"
+http_conf: "site"
+http_port: "80"
+php_conf: "info.php"
+dockerfile_conf: "dockerfile"
+supervisord_conf: "supervisord.conf"
+nginxstd_conf: "nginxstd.conf"
+phpstd_conf: "phpstd.conf"
+#sh_conf: "sh.sh"
+#create_containers: 1
+#default_container_name: docker
+default_container_image: docker-lemp-phptest

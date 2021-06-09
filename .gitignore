@@ -1,1 +1,4 @@
 lemp20/inventory/inventory.yml
+docker/inventory/inventory.yml
+docker/files/dockerfileees
+docker/files/sh.sh.j2

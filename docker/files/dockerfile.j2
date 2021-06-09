@@ -1,0 +1,12 @@
+FROM ubuntu
+RUN apt update
+RUN DEBIAN_FRONTEND="noninteractive" apt install nginx php-fpm supervisor -y
+EXPOSE 80
+COPY site /etc/nginx/sites-enabled/
+COPY info.php /var/www/html
+COPY supervisord.conf /etc/supervisor/conf.d/
+COPY nginxstd.conf /etc/supervisor/conf.d/
+COPY phpstd.conf /etc/supervisor/conf.d/
+RUN ln -s /etc/nginx/sites-enabled/site /etc/nginx/sites-available/
+RUN rm /etc/nginx/sites-enabled/default
+CMD ["supervisord", "-n"]
